@@ -8,14 +8,12 @@ import static ProjetoADA.Aplicacao.*;
 
 public class ContaPoupanca extends Conta implements MetodosConta{
 
-    protected double saldoCP;
+    private double saldoCP;
 
-    public double getSaldoCP() {
-        return saldoCP;
+    public double getSaldoCP() {return saldoCP;
     }
 
-    public void setSaldoCP(double saldoCP) {
-        this.saldoCP = saldoCP;
+    public void setSaldoCP(double saldoCP) {this.saldoCP = saldoCP;
     }
 
     @Override

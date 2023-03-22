@@ -8,7 +8,7 @@ import static ProjetoADA.Aplicacao.*;
 
 public class ContaInvestimento extends Conta implements MetodosConta{
 
-    protected double saldoCI;
+    private double saldoCI;
 
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;

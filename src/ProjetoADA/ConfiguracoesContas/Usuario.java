@@ -9,6 +9,4 @@ public class Usuario extends Conta{
         setNumConta(nConta);
 
     }
-
-
 }

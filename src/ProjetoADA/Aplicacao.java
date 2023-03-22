@@ -167,13 +167,13 @@ public class Aplicacao {
 
                 Imprimir.i(CRIACAO_DE_CONTA, String.valueOf(NumConta));
 
-                ContaCorrente cc = new ContaCorrente(NumConta, 0);
+                ContaCorrente cc = new ContaCorrente(NumConta, 0.0);
                 ListSaldoCC.add(cc);
 
-                ContaPoupanca cp = new ContaPoupanca(NumConta, 0);
+                ContaPoupanca cp = new ContaPoupanca(NumConta, 0.0);
                 ListSaldoCP.add(cp);
 
-                ContaInvestimento ci = new ContaInvestimento(NumConta, 0);
+                ContaInvestimento ci = new ContaInvestimento(NumConta, 0.0);
                 ListSaldoCI.add(ci);
 
                 //Caso escolha opção de realizar ‘login’:
@@ -207,21 +207,24 @@ public class Aplicacao {
 
                         ContaCorrente ccl = ListSaldoCC.get(i);
 
-                        if (ccl.getNumConta() == NumConta) {
+                        if (ccl.getNumConta() == NumContalogin) {
 
                             cc.setSaldoCC(ccl.getSaldoCC());
 
+                            break;
                         }
 
                     }
 
                     for (int i = 0; i <= ListSaldoCP.size(); i++) {
 
-                        ContaPoupanca ccl = ListSaldoCP.get(i);
+                        ContaPoupanca cpl = ListSaldoCP.get(i);
 
-                        if (ccl.getNumConta() == NumConta) {
+                        if (cpl.getNumConta() == NumContalogin) {
 
-                            cp.setSaldoCP(ccl.getSaldoCP());
+                            cp.setSaldoCP(cpl.getSaldoCP());
+
+                            break;
 
                         }
 
@@ -229,11 +232,13 @@ public class Aplicacao {
 
                     for (int i = 0; i <= ListSaldoCI.size(); i++) {
 
-                        ContaInvestimento ccl = ListSaldoCI.get(i);
+                        ContaInvestimento cil = ListSaldoCI.get(i);
 
-                        if (ccl.getNumConta() == NumConta) {
+                        if (cil.getNumConta() == NumContalogin) {
 
-                            ci.setSaldoCI(ccl.getSaldoCI());
+                            ci.setSaldoCI(cil.getSaldoCI());
+
+                            break;
 
                         }
 
@@ -312,6 +317,7 @@ public class Aplicacao {
                 if (menuOperacao == 1) {
 
                     Imprimir.i(VALOR_DE_DEPOSITO);
+
                     cc.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
 
                 } else if (menuOperacao == 2) {
@@ -408,6 +414,7 @@ public class Aplicacao {
                     checkconta = true;
 
                     Imprimir.i(MENU_OPERACAO);
+
                     menuOperacao = Integer.parseInt(sc.nextLine());
 
                     if (menuOperacao != 1 && menuOperacao != 2 && menuOperacao != 3) {
@@ -458,6 +465,7 @@ public class Aplicacao {
                 }
             }
 
+            Imprimir.i(ListSaldoCC.toString());
             amostragemSaldos();
 
             Imprimir.i(REALIZAR_OUTRA_OPERACAO);

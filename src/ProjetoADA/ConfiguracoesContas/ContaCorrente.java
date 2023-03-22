@@ -9,7 +9,7 @@ public class ContaCorrente extends Conta implements MetodosConta {
     public static final String VALOR_INSUFICIENTE = "Valor Insuficiente, Transação Não Efetuada!\n";
     public static final String TRANSACAO_EFETUADA = "Transação Efetuada!\n";
 
-    protected double saldoCC;
+    private double saldoCC;
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;
 
@@ -29,23 +29,25 @@ public class ContaCorrente extends Conta implements MetodosConta {
     }
 
     @Override
-    public String toString() {
-        return "ContaCorrente{" +
-                "saldoCC=" + saldoCC +
-                ", nConta=" + getNumConta() +
-                '}';
-    }
-
-    @Override
     public void depositar(int tpCliente, double valor) {
 
         if(tpCliente==2) {
 
-            saldoCC = saldoCC +(valor*(1+j.getTaxasEJuros()));
+            this.saldoCC+=(valor*(1+j.getTaxasEJuros()));
 
-        } else {saldoCC= saldoCC + valor;}
+        } else {
+
+            this.saldoCC+= valor;}
 
         Imprimir.i(TRANSACAO_EFETUADA);
+
+    }
+
+    @Override
+    public String toString() {
+        return "ContaCorrente{" +
+                "saldoCC=" + saldoCC +
+                '}';
     }
 
     @Override
@@ -75,7 +77,6 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
     @Override
     public void transferencia(int tpCliente, int destinoTransferencia, double valor) {
-
 
         double valorTransf;
 
