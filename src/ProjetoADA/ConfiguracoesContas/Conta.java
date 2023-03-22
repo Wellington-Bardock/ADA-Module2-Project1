@@ -49,5 +49,4 @@ public abstract class Conta {
         this.numConta = numConta;
     }
 
-
 }

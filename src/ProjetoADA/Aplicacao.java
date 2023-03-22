@@ -2,74 +2,16 @@ package ProjetoADA;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 import ProjetoADA.ClassesAuxiliares.Perguntar;
+import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 import ProjetoADA.ConfiguracoesContas.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 public class Aplicacao {
-
-    public static final String MENU_INICIAL_PF = """
-            Por favor, informar qual o tipo de conta:
-            1 - Conta Corrente
-            2 - Conta Investimento
-            3 - Conta Poupança""";
-
-    public static final String MENU_OPERACAO = """
-            Por favor, selecionar a operação:
-            1 - Depósito
-            2 - Saque
-            3 - Transferencia""";
-
-    public static final String MENU_NOME = "Por favor, informar o seu nome:";
-    public static final String MENU_CONTA = "Por favor informar a sua conta:\n";
-    public static final String INTRODUCAO_NOME = "Olá %s!\n";
-    public static final String VALOR_DE_DEPOSITO = "Qual o valor de depósito?";
-    public static final String VALOR_DE_SAQUE = "Qual o valor de saque?";
-    public static final String REALIZAR_OUTRA_OPERACAO = "Gostaria de realizar outra operação? (S/N)";
-    public static final String VALOR_INVALIDO = "Valor Invalido!";
-    public static final String CHECAGEM_SALDO = "Gostaria de ver o seu saldo? (S/N)";
-    public static final String INTRODUCAO_APP = """
-            Bem Vindo ao APP Banco! Por favor, informar a opção desejada!
-             1 - Criar Conta
-             2 - Realizar Login""";
-
-    public static final String PRIMEIRO_MENU = """
-            Por favor, informar a opção desejada!
-             1 - Criar Conta
-             2 - Realizar Login""";
-
-    public static final String INFORMAR_DOCUMENTO = "Por favor, informar o %s:\n";
-    public static final String INFORMAR_TP_CLIENTE = """
-            Por favor, informar qual o tipo de conta:
-            1 - Conta Física
-            2 - Conta Juridica""";
-    public static final String VALOR_TRANSFERENCIA = "Qual valor você deseja transferir?";
-    public static final String DESTINO_TRANSFERENCIA = """
-            Por favor, informar qual conta irá receber"
-            1 - %s
-            2 - %s
-            """;
-    public static final String CRIACAO_DE_CONTA = "Conta Criada com sucesso, Nº%s!\n";
-    public static final String VALOR_INVESTIMENTO = "Qual será o valor investido?";
-    public static final String MENU_RAZAO_SOCIAL = "Por favor, informar a razão social:";
-    public static final String CONTA_CORRENTE = "Conta Corrente";
-    public static final String CONTA_INVESTIMENTO = "Conta Investimento";
-    public static final String CONTA_POUPANCA = "Conta Poupança";
-    public static final String DADOS_CONTA = """
-            Nome: %s
-            Nº da Conta: %s
-            """;
-    public static final String CPF = "CPF";
-    public static final String CNPJ = "CNPJ";
-    public static final String DESLOGAR = "Gostaria de realizar deslogar?";
-    public static final String CONTA_NAO_ENCONTRADA = "Conta não encontrada!";
-    public static final String MENU_INICIAL_PJ = """
-            Por favor, informar qual o tipo de conta:
-            1 - Conta Corrente
-            2 - Conta Investimento""";
-    public static final String VALOR_SALDO = "Saldo: %.2f\n";
     public static Scanner sc = new Scanner(System.in);
     static boolean checkconta;
     static boolean loop;
@@ -90,10 +32,6 @@ public class Aplicacao {
     private static double saldoCI;
 
     public static void main(String[] args) {
-
-        ContaCorrente cc = new ContaCorrente();
-        ContaInvestimento ci = new ContaInvestimento();
-        ContaPoupanca cp = new ContaPoupanca();
 
         Imprimir.i(INTRODUCAO_APP);
 
@@ -165,7 +103,7 @@ public class Aplicacao {
 
                 } while (!checkconta);
 
-                NumConta = ConfigConta.gerarNConta();
+                NumConta = Usuario.gerarNConta();
 
                 Usuario U = new Usuario(nomeCliente, docCliente, tpCliente, NumConta);
                 UList.add(U);
@@ -210,18 +148,14 @@ public class Aplicacao {
                             saldoCI = cil.getSaldo();
 
                             break;
-
                         }
-
                     }
-
 
                 } catch (NumberFormatException e) {
                     Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
 
                 } while (!checkconta);
-
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -230,6 +164,10 @@ public class Aplicacao {
         } while (!checkconta);
 
         Imprimir.i(INTRODUCAO_NOME, nomeCliente);
+
+        ContaCorrente cc = new ContaCorrente(saldoCC);
+        ContaInvestimento ci = new ContaInvestimento(saldoCI);
+        ContaPoupanca cp = new ContaPoupanca(saldoCP);
 
         do {
 
@@ -287,15 +225,35 @@ public class Aplicacao {
 
                 if (menuOperacao == 1) {
 
-                    Imprimir.i(VALOR_DE_DEPOSITO);
+                    do try {
 
-                    cc.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
+                        checkconta = true;
+
+                        Imprimir.i(VALOR_DE_DEPOSITO);
+
+                        cc.depositar(tpCliente, Double.parseDouble(sc.nextLine()), menuOperacao);
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
 
                 } else if (menuOperacao == 2) {
-                    Imprimir.i(VALOR_DE_SAQUE);
-                    cc.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    do try {
+
+                        Imprimir.i(VALOR_DE_SAQUE);
+                        cc.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
 
                 } else if (menuOperacao == 3) {
+
                     Imprimir.i(VALOR_TRANSFERENCIA);
                     double valorTransferencia = Double.parseDouble(sc.nextLine());
 
@@ -310,18 +268,17 @@ public class Aplicacao {
                         destinoTransferencia = 2;
                     }
 
-                    cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
+                    cc.transferencia(tpCliente, destinoTransferencia, valorTransferencia);
 
-                    if(destinoTransferencia==1) {
+                    if (destinoTransferencia == 1) {
 
-                        cp.depositar(tpCliente, valorTransferencia);
+                        cp.depositar(tpCliente, valorTransferencia, menuOperacao);
 
-                    } else if(destinoTransferencia==2) {
+                    } else if (destinoTransferencia == 2) {
 
-                        ci.depositar(tpCliente, valorTransferencia);
+                        ci.depositar(tpCliente, valorTransferencia, menuOperacao);
 
                     }
-
                 }
 
             } else if (menuInicial == 3 && tpCliente == 1) {
@@ -345,13 +302,29 @@ public class Aplicacao {
 
                 if (menuOperacao == 1) {
 
-                    Imprimir.i(VALOR_DE_DEPOSITO);
+                    do try {
 
-                    cp.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
+                        Imprimir.i(VALOR_DE_DEPOSITO);
+                        cp.depositar(tpCliente, Double.parseDouble(sc.nextLine()), menuOperacao);
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
 
                 } else if (menuOperacao == 2) {
-                    Imprimir.i(VALOR_DE_SAQUE);
-                    cp.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    do try {
+
+                        Imprimir.i(VALOR_DE_SAQUE);
+                        cp.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
 
                 } else if (menuOperacao == 3) {
 
@@ -361,18 +334,17 @@ public class Aplicacao {
                     Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_CORRENTE, CONTA_INVESTIMENTO);
                     int destinoTransferencia = Integer.parseInt(sc.nextLine());
 
-                    cp.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
+                    cp.transferencia(tpCliente, destinoTransferencia, valorTransferencia);
 
-                    if(destinoTransferencia==1) {
+                    if (destinoTransferencia == 1) {
 
-                        cc.depositar(tpCliente, valorTransferencia);
+                        cc.depositar(tpCliente, valorTransferencia, menuOperacao);
 
-                    } else if(destinoTransferencia==2) {
+                    } else if (destinoTransferencia == 2) {
 
-                        ci.depositar(tpCliente, valorTransferencia);
+                        ci.depositar(tpCliente, valorTransferencia, menuOperacao);
 
                     }
-
                 }
 
             } else if (menuInicial == 2) {
@@ -396,12 +368,31 @@ public class Aplicacao {
                 } while (!checkconta);
 
                 if (menuOperacao == 1) {
-                    Imprimir.i(VALOR_INVESTIMENTO);
-                    ci.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    do try {
+
+                        Imprimir.i(VALOR_INVESTIMENTO);
+                        ci.depositar(tpCliente, Double.parseDouble(sc.nextLine()), menuOperacao);
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
+
 
                 } else if (menuOperacao == 2) {
-                    Imprimir.i(VALOR_DE_SAQUE);
-                    ci.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    do try {
+
+                        Imprimir.i(VALOR_DE_SAQUE);
+                        ci.sacar(tpCliente, Double.parseDouble(sc.nextLine()));
+
+                    } catch (NumberFormatException e) {
+                        Imprimir.i(VALOR_INVALIDO);
+                        checkconta = false;
+
+                    } while (!checkconta);
 
                 } else if (menuOperacao == 3) {
                     Imprimir.i(VALOR_TRANSFERENCIA);
@@ -420,19 +411,16 @@ public class Aplicacao {
 
                     ci.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
 
-                    if(destinoTransferencia==1) {
+                    if (destinoTransferencia == 1) {
 
-                        cc.depositar(tpCliente, valorTransferencia);
+                        cc.depositar(tpCliente, valorTransferencia, menuOperacao);
 
-                    } else if(destinoTransferencia==2) {
+                    } else if (destinoTransferencia == 2) {
 
-                        cp.depositar(tpCliente, valorTransferencia);
+                        cp.depositar(tpCliente, valorTransferencia, menuOperacao);
 
                     }
-
-
                 }
-
             }
 
             for (int i = 0; i <= ListSaldoCI.size(); i++) {
@@ -447,8 +435,8 @@ public class Aplicacao {
                     saldoCCi.setSaldo(cc.getSaldo());
                     saldoCPi.setSaldo(cp.getSaldo());
 
-                    saldoCI=saldoCIi.getSaldo();
-                    saldoCC=saldoCCi.getSaldo();
+                    saldoCI = saldoCIi.getSaldo();
+                    saldoCC = saldoCCi.getSaldo();
                     saldoCP = saldoCPi.getSaldo();
 
                     break;
@@ -470,7 +458,6 @@ public class Aplicacao {
             main(args);
 
         } else System.exit(0);
-
     }
 
     public static void amostragemSaldos() {
@@ -486,10 +473,10 @@ public class Aplicacao {
 
                 Imprimir.i(CONTA_CORRENTE);
                 Imprimir.i(String.format(VALOR_SALDO, saldoCC));
-                Imprimir.i(CONTA_POUPANCA);
-                Imprimir.i(String.format(VALOR_SALDO, saldoCP));
                 Imprimir.i(CONTA_INVESTIMENTO);
                 Imprimir.i(String.format(VALOR_SALDO, saldoCI));
+                Imprimir.i(CONTA_POUPANCA);
+                Imprimir.i(String.format(VALOR_SALDO, saldoCP));
 
             } else {
                 Imprimir.i(CONTA_CORRENTE);

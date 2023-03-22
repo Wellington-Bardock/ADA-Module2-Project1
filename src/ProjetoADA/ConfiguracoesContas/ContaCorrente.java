@@ -2,16 +2,16 @@ package ProjetoADA.ConfiguracoesContas;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 import ProjetoADA.ClassesAuxiliares.TaxasEJuros;
-import static ProjetoADA.Aplicacao.*;
+
+import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 
 public class ContaCorrente extends Conta implements MetodosConta {
 
-    public static final String VALOR_INSUFICIENTE = "Valor Insuficiente, Transação Não Efetuada!\n";
-    public static final String TRANSACAO_EFETUADA = "Transação Efetuada!\n";
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;
 
-    public ContaCorrente() {
+    public ContaCorrente(double saldoCC) {
+        setSaldo(saldoCC);
     }
 
     public ContaCorrente(int NumConta, double saldoCC) {
@@ -20,31 +20,36 @@ public class ContaCorrente extends Conta implements MetodosConta {
     }
 
     @Override
-    public void depositar(int tpCliente, double valor) {
+    public void depositar(int tpCliente, double valor, int tpOperacao) {
 
-        if(tpCliente==2) {
+        if (tpCliente == 2) {
 
-            setSaldo(getSaldo()+ valor*(1+j.getTaxasEJuros()));
+            setSaldo(getSaldo() + valor * (1 + j.getTaxasEJuros()));
 
         } else {
 
-            setSaldo(getSaldo() + valor);}
+            setSaldo(getSaldo() + valor);
+        }
 
-        Imprimir.i(TRANSACAO_EFETUADA);
+        if(tpOperacao==1) {
 
+            Imprimir.i(TRANSACAO_EFETUADA);
+
+        }
     }
 
     @Override
     public void sacar(int tpCliente, double valor) {
 
-        if (tpCliente==2) {
+        if (tpCliente == 2) {
 
-            if(getSaldo()<valor*(1+t.getTaxasEJuros())) {
+            if (getSaldo() < valor * (1 + t.getTaxasEJuros())) {
 
-                Imprimir.i(VALOR_INSUFICIENTE);}
-
-            else {setSaldo(getSaldo()-(valor*(1+t.getTaxasEJuros())));
-                Imprimir.i(TRANSACAO_EFETUADA);}
+                Imprimir.i(VALOR_INSUFICIENTE);
+            } else {
+                setSaldo(getSaldo() - (valor * (1 + t.getTaxasEJuros())));
+                Imprimir.i(TRANSACAO_EFETUADA);
+            }
 
         } else {
 
@@ -64,27 +69,26 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
         double valorTransf;
 
-        if(tpCliente==2) {
+        if (tpCliente == 2) {
             valorTransf = valor * (1 + t.getTaxasEJuros());
         } else {
-            valorTransf = valor;}
+            valorTransf = valor;
+        }
 
         if (destinoTransferencia == 1 && getSaldo() >= valorTransf) {
 
             setSaldo(getSaldo() - valorTransf);
 
-            Imprimir.i(TRANSACAO_EFETUADA);
-
         } else if (destinoTransferencia == 2 && getSaldo() >= valorTransf) {
 
-            setSaldo(getSaldo()- valorTransf);
+            setSaldo(getSaldo() - valorTransf);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
-            } else {
-                Imprimir.i(VALOR_INVALIDO);
-            }
+        } else {
+            Imprimir.i(VALOR_INVALIDO);
         }
+    }
 
     @Override
     public String toString() {
@@ -93,10 +97,4 @@ public class ContaCorrente extends Conta implements MetodosConta {
                 ", conta=" + getNumConta() +
                 '}';
     }
-
-    @Override
-    public void exibirSaldo() {
-        Imprimir.i(String.format("Saldo: %.2f\n", getSaldo()));
-    }
-
 }

@@ -5,7 +5,7 @@ public enum TaxasEJuros {
     JUROS(0.02),
     TAXA(0.005);
 
-    private double taxasEJuros;
+    private final double taxasEJuros;
 
     TaxasEJuros(double taxasEJuros) {
         this.taxasEJuros = taxasEJuros;
@@ -14,5 +14,4 @@ public enum TaxasEJuros {
     public double getTaxasEJuros() {
         return taxasEJuros;
     }
-
 }

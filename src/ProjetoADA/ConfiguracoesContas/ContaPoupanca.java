@@ -1,41 +1,46 @@
 package ProjetoADA.ConfiguracoesContas;
+
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 
-import static ProjetoADA.ConfiguracoesContas.ContaCorrente.TRANSACAO_EFETUADA;
-import static ProjetoADA.ConfiguracoesContas.ContaCorrente.VALOR_INSUFICIENTE;
-import static ProjetoADA.Aplicacao.*;
+import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 
-
-public class ContaPoupanca extends Conta implements MetodosConta{
+public class ContaPoupanca extends Conta implements MetodosConta {
 
     @Override
-    public void depositar(int tpCliente, double valor) {
+    public void depositar(int tpCliente, double valor, int tpOperacao) {
         setSaldo(getSaldo() + valor);
-        Imprimir.i(TRANSACAO_EFETUADA);
+
+        if (tpOperacao == 1) {
+
+            Imprimir.i(TRANSACAO_EFETUADA);
+
+        }
+
     }
 
-    public ContaPoupanca() {
+    public ContaPoupanca(double ignoredSaldoCP) {
+        setSaldo(getSaldo());
     }
 
     public ContaPoupanca(int NumConta, double ignoredSaldoCP) {
-       setSaldo(getSaldo());
+        setSaldo(getSaldo());
         setNumConta(NumConta);
     }
 
     @Override
     public void sacar(int tpCliente, double valor) {
 
-            if (getSaldo() < valor) {
+        if (getSaldo() < valor) {
 
-                Imprimir.i(VALOR_INSUFICIENTE);
-            } else {
-                setSaldo(getSaldo()- valor);
-                Imprimir.i(TRANSACAO_EFETUADA);
-            }
+            Imprimir.i(VALOR_INSUFICIENTE);
+        } else {
+            setSaldo(getSaldo() - valor);
+            Imprimir.i(TRANSACAO_EFETUADA);
         }
+    }
 
     @Override
-    public void transferencia(int destinoTransferencia, int tpCliente, double valor) {
+    public void transferencia(int tpCliente, int destinoTransferencia, double valor) {
 
         if (destinoTransferencia == 1 && getSaldo() >= valor) {
 
@@ -62,10 +67,5 @@ public class ContaPoupanca extends Conta implements MetodosConta{
                 "saldo=" + getSaldo() +
                 ", conta=" + getNumConta() +
                 '}';
-    }
-
-    @Override
-    public void exibirSaldo() {
-        Imprimir.i(String.format("Saldo: %.2f\n", getSaldo()));
     }
 }
