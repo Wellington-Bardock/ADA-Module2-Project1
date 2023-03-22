@@ -10,7 +10,6 @@ public class ContaPoupanca extends Conta implements MetodosConta{
 
     @Override
     public void depositar(int tpCliente, double valor) {
-
         setSaldo(getSaldo() + valor);
         Imprimir.i(TRANSACAO_EFETUADA);
     }
@@ -41,7 +40,7 @@ public class ContaPoupanca extends Conta implements MetodosConta{
         if (destinoTransferencia == 1 && getSaldo() >= valor) {
 
             setSaldo(getSaldo() - valor);
-            setSaldo(getSaldo() + valor);
+
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
@@ -55,6 +54,14 @@ public class ContaPoupanca extends Conta implements MetodosConta{
         } else {
             Imprimir.i(VALOR_INVALIDO);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ContaPoupança{" +
+                "saldo=" + getSaldo() +
+                ", conta=" + getNumConta() +
+                '}';
     }
 
     @Override

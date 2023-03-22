@@ -8,23 +8,14 @@ import static ProjetoADA.Aplicacao.*;
 
 public class ContaInvestimento extends Conta implements MetodosConta{
 
-    private double saldoCI;
-
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;
-
-    public double getSaldoCI() {
-        return saldoCI;
-    }
-    public void setSaldoCI(double saldoCI) {
-        this.saldoCI = saldoCI;
-    }
 
     public ContaInvestimento() {
     }
 
     public ContaInvestimento(int NumConta, double saldoCI) {
-        this.saldoCI = saldoCI;
+        setSaldo(saldoCI);
         setNumConta(NumConta);
     }
 
@@ -32,9 +23,9 @@ public class ContaInvestimento extends Conta implements MetodosConta{
     public void depositar(int tpCliente, double valor) {
         if(tpCliente==2) {
 
-            saldoCI = saldoCI +(valor*(1+j.getTaxasEJuros()));
+            setSaldo(getSaldo() + (valor*(1+j.getTaxasEJuros())));
 
-        } else {saldoCI= saldoCI + valor;}
+        } else {setSaldo(getSaldo() + valor);}
 
         Imprimir.i(TRANSACAO_EFETUADA);
     }
@@ -44,20 +35,20 @@ public class ContaInvestimento extends Conta implements MetodosConta{
 
         if (tpCliente==2) {
 
-            if(saldoCI<valor*(1+t.getTaxasEJuros())) {
+            if(getSaldo()<valor*(1+t.getTaxasEJuros())) {
 
                 Imprimir.i(VALOR_INSUFICIENTE);}
 
-            else {saldoCI= saldoCI-(valor*(1+t.getTaxasEJuros()));
+            else {setSaldo(getSaldo()-(valor*(1+t.getTaxasEJuros())));
                 Imprimir.i(TRANSACAO_EFETUADA);}
 
         } else {
 
-            if (saldoCI < valor) {
+            if (getSaldo() < valor) {
 
                 Imprimir.i(VALOR_INSUFICIENTE);
             } else {
-                saldoCI = saldoCI - valor;
+                setSaldo(getSaldo() - valor);
                 Imprimir.i(TRANSACAO_EFETUADA);
             }
 
@@ -74,17 +65,15 @@ public class ContaInvestimento extends Conta implements MetodosConta{
         } else {
             valorTransf = valor;}
 
-        if (destinoTransferencia == 1 && saldoCI >= valorTransf) {
+        if (destinoTransferencia == 1 && getSaldo() >= valorTransf) {
 
-            saldoCI = saldoCI - valorTransf;
-            setSaldo(getSaldo() + valor);
+            setSaldo(getSaldo() - valorTransf);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
-        } else if (destinoTransferencia == 2 && saldoCI >= valorTransf) {
+        } else if (destinoTransferencia == 2 && getSaldo() >= valorTransf) {
 
-            saldoCI = saldoCI- valorTransf;
-            setSaldo(getSaldo() + valor);
+            setSaldo(getSaldo()- valorTransf);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
@@ -94,7 +83,16 @@ public class ContaInvestimento extends Conta implements MetodosConta{
     }
 
     @Override
+    public String toString() {
+        return "ContaInvestimento{" +
+                "saldo=" + getSaldo() +
+                ", conta=" + getNumConta() +
+                '}';
+    }
+
+
+    @Override
     public void exibirSaldo() {
-        Imprimir.i(String.format("Saldo: %.2f\n", getSaldoCI()));
+        Imprimir.i(String.format("Saldo: %.2f\n", getSaldo()));
     }
 }

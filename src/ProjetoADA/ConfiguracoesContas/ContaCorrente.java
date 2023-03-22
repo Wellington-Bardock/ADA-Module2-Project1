@@ -72,14 +72,12 @@ public class ContaCorrente extends Conta implements MetodosConta {
         if (destinoTransferencia == 1 && getSaldo() >= valorTransf) {
 
             setSaldo(getSaldo() - valorTransf);
-            setSaldo(getSaldo() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
         } else if (destinoTransferencia == 2 && getSaldo() >= valorTransf) {
 
             setSaldo(getSaldo()- valorTransf);
-            setSaldo(getSaldo()+valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 

@@ -195,6 +195,9 @@ public class Aplicacao {
                     for (int i = 0; i <= UList.size(); i++) {
 
                         Usuario contai = UList.get(i);
+                        ContaCorrente ccl = ListSaldoCC.get(i);
+                        ContaPoupanca cpl = ListSaldoCP.get(i);
+                        ContaInvestimento cil = ListSaldoCI.get(i);
 
                         if (contai.getNumConta() == NumContalogin) {
 
@@ -202,46 +205,8 @@ public class Aplicacao {
                             docCliente = contai.getDocumentoCliente();
                             tpCliente = contai.getTipoCliente();
                             NumConta = NumContalogin;
-
-                            break;
-
-                        }
-
-                    }
-
-                    for (int i = 0; i <= ListSaldoCC.size(); i++) {
-
-                        ContaCorrente ccl = ListSaldoCC.get(i);
-
-                        if (ccl.getNumConta() == NumContalogin) {
-
                             saldoCC = ccl.getSaldo();
-
-                            break;
-                        }
-
-                    }
-
-                    for (int i = 0; i <= ListSaldoCP.size(); i++) {
-
-                        ContaPoupanca cpl = ListSaldoCP.get(i);
-
-                        if (cpl.getNumConta() == NumContalogin) {
-
                             saldoCP = cpl.getSaldo();
-
-                            break;
-
-                        }
-
-                    }
-
-                    for (int i = 0; i <= ListSaldoCI.size(); i++) {
-
-                        ContaInvestimento cil = ListSaldoCI.get(i);
-
-                        if (cil.getNumConta() == NumContalogin) {
-
                             saldoCI = cil.getSaldo();
 
                             break;
@@ -346,19 +311,14 @@ public class Aplicacao {
                     }
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
-                }
 
-                for (int i = 0; i <= ListSaldoCC.size(); i++) {
+                    if(destinoTransferencia==1) {
 
-                    ContaCorrente saldoCCi = ListSaldoCC.get(i);
+                        cp.depositar(tpCliente, valorTransferencia);
 
-                    if (saldoCCi.getNumConta() == NumConta) {
+                    } else if(destinoTransferencia==2) {
 
-                        saldoCCi.setSaldo(cc.getSaldo());
-
-                        saldoCC=saldoCCi.getSaldo();
-
-                        break;
+                        ci.depositar(tpCliente, valorTransferencia);
 
                     }
 
@@ -401,20 +361,15 @@ public class Aplicacao {
                     Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_CORRENTE, CONTA_INVESTIMENTO);
                     int destinoTransferencia = Integer.parseInt(sc.nextLine());
 
-                    cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
+                    cp.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
 
-                }
-                for (int i = 0; i <= ListSaldoCP.size(); i++) {
+                    if(destinoTransferencia==1) {
 
-                    ContaPoupanca saldoCPi = ListSaldoCP.get(i);
+                        cc.depositar(tpCliente, valorTransferencia);
 
-                    if (saldoCPi.getNumConta() == NumConta) {
+                    } else if(destinoTransferencia==2) {
 
-                        saldoCPi.setSaldo(cc.getSaldo());
-
-                        saldoCP=saldoCPi.getSaldo();
-
-                        break;
+                        ci.depositar(tpCliente, valorTransferencia);
 
                     }
 
@@ -463,28 +418,45 @@ public class Aplicacao {
                         destinoTransferencia = 1;
                     }
 
-                    cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
+                    ci.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
 
-                }
-                for (int i = 0; i <= ListSaldoCI.size(); i++) {
+                    if(destinoTransferencia==1) {
 
-                    ContaInvestimento saldoCIi = ListSaldoCI.get(i);
+                        cc.depositar(tpCliente, valorTransferencia);
 
-                    if (saldoCIi.getNumConta() == NumConta) {
+                    } else if(destinoTransferencia==2) {
 
-                        saldoCIi.setSaldoCI(cc.getSaldo());
-
-                        saldoCI=saldoCIi.getSaldo();
-
-                        break;
+                        cp.depositar(tpCliente, valorTransferencia);
 
                     }
+
+
+                }
+
+            }
+
+            for (int i = 0; i <= ListSaldoCI.size(); i++) {
+
+                ContaInvestimento saldoCIi = ListSaldoCI.get(i);
+                ContaCorrente saldoCCi = ListSaldoCC.get(i);
+                ContaPoupanca saldoCPi = ListSaldoCP.get(i);
+
+                if (saldoCIi.getNumConta() == NumConta) {
+
+                    saldoCIi.setSaldo(ci.getSaldo());
+                    saldoCCi.setSaldo(cc.getSaldo());
+                    saldoCPi.setSaldo(cp.getSaldo());
+
+                    saldoCI=saldoCIi.getSaldo();
+                    saldoCC=saldoCCi.getSaldo();
+                    saldoCP = saldoCPi.getSaldo();
+
+                    break;
+
                 }
             }
 
             amostragemSaldos();
-
-            Imprimir.i(ListSaldoCC.toString());
 
             Imprimir.i(REALIZAR_OUTRA_OPERACAO);
             loop = Perguntar.q(sc.nextLine(), REALIZAR_OUTRA_OPERACAO);
