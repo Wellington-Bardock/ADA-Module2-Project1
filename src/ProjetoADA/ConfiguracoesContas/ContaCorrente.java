@@ -89,6 +89,14 @@ public class ContaCorrente extends Conta implements MetodosConta {
         }
 
     @Override
+    public String toString() {
+        return "ContaCorrente{" +
+                "saldo=" + getSaldo() +
+                ", conta=" + getNumConta() +
+                '}';
+    }
+
+    @Override
     public void exibirSaldo() {
         Imprimir.i(String.format("Saldo: %.2f\n", getSaldo()));
     }

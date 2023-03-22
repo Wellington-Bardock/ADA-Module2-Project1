@@ -18,7 +18,7 @@ public class ContaPoupanca extends Conta implements MetodosConta{
     public ContaPoupanca() {
     }
 
-    public ContaPoupanca(int NumConta, double saldoCP) {
+    public ContaPoupanca(int NumConta, double ignoredSaldoCP) {
        setSaldo(getSaldo());
         setNumConta(NumConta);
     }

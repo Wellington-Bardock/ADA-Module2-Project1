@@ -69,6 +69,7 @@ public class Aplicacao {
             Por favor, informar qual o tipo de conta:
             1 - Conta Corrente
             2 - Conta Investimento""";
+    public static final String VALOR_SALDO = "Saldo: %.2f\n";
     public static Scanner sc = new Scanner(System.in);
     static boolean checkconta;
     static boolean loop;
@@ -200,6 +201,7 @@ public class Aplicacao {
                             nomeCliente = contai.getNomeCliente();
                             docCliente = contai.getDocumentoCliente();
                             tpCliente = contai.getTipoCliente();
+                            NumConta = NumContalogin;
 
                             break;
 
@@ -482,6 +484,8 @@ public class Aplicacao {
 
             amostragemSaldos();
 
+            Imprimir.i(ListSaldoCC.toString());
+
             Imprimir.i(REALIZAR_OUTRA_OPERACAO);
             loop = Perguntar.q(sc.nextLine(), REALIZAR_OUTRA_OPERACAO);
 
@@ -509,17 +513,17 @@ public class Aplicacao {
             if (tpCliente == 1) {
 
                 Imprimir.i(CONTA_CORRENTE);
-                Imprimir.i(String.format("Saldo: %.2f\n", saldoCC));
+                Imprimir.i(String.format(VALOR_SALDO, saldoCC));
                 Imprimir.i(CONTA_POUPANCA);
-                Imprimir.i(String.format("Saldo: %.2f\n", saldoCP));
+                Imprimir.i(String.format(VALOR_SALDO, saldoCP));
                 Imprimir.i(CONTA_INVESTIMENTO);
-                Imprimir.i(String.format("Saldo: %.2f\n", saldoCI));
+                Imprimir.i(String.format(VALOR_SALDO, saldoCI));
 
             } else {
                 Imprimir.i(CONTA_CORRENTE);
-                //cc.exibirSaldo();
+                Imprimir.i(String.format(VALOR_SALDO, saldoCC));
                 Imprimir.i(CONTA_INVESTIMENTO);
-                //ci.exibirSaldo();
+                Imprimir.i(String.format(VALOR_SALDO, saldoCI));
 
             }
         }
