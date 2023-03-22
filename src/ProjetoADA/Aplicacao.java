@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class Aplicacao {
 
-    public static final String MENU_INICIAL = """
+    public static final String MENU_INICIAL_PF = """
             Por favor, informar qual o tipo de conta:
             1 - Conta Corrente
-            2 - Conta Poupança
-            3 - Conta Investimento""";
+            2 - Conta Investimento
+            3 - Conta Poupança""";
 
     public static final String MENU_OPERACAO = """
             Por favor, selecionar a operação:
@@ -54,6 +54,21 @@ public class Aplicacao {
     public static final String CRIACAO_DE_CONTA = "Conta Criada com sucesso, Nº%s!\n";
     public static final String VALOR_INVESTIMENTO = "Qual será o valor investido?";
     public static final String MENU_RAZAO_SOCIAL = "Por favor, informar a razão social:";
+    public static final String CONTA_CORRENTE = "Conta Corrente";
+    public static final String CONTA_INVESTIMENTO = "Conta Investimento";
+    public static final String CONTA_POUPANCA = "Conta Poupança";
+    public static final String DADOS_CONTA = """
+            Nome: %s
+            Nº da Conta: %s
+            """;
+    public static final String CPF = "CPF";
+    public static final String CNPJ = "CNPJ";
+    public static final String DESLOGAR = "Gostaria de realizar deslogar?";
+    public static final String CONTA_NAO_ENCONTRADA = "Conta não encontrada!";
+    public static final String MENU_INICIAL_PJ = """
+            Por favor, informar qual o tipo de conta:
+            1 - Conta Corrente
+            2 - Conta Investimento""";
     public static Scanner sc = new Scanner(System.in);
     public static ContaCorrente cc = new ContaCorrente();
     public static ContaPoupanca cp = new ContaPoupanca();
@@ -68,105 +83,177 @@ public class Aplicacao {
     private static String docCliente;
     private static int menuInicial;
     private static int menuOperacao;
+    private static final List<Usuario> UList = new ArrayList<>();
+    private static final List<ContaCorrente> ListSaldoCC = new ArrayList<>();
+    private static final List<ContaPoupanca> ListSaldoCP = new ArrayList<>();
+    private static final List<ContaInvestimento> ListSaldoCI = new ArrayList<>();
 
     public static void main(String[] args) {
 
         Imprimir.i(INTRODUCAO_APP);
 
-        // Try catch referente a primeira opção do menu;
         do try {
 
-            checkconta = true;
-            menuIntroducao = Integer.parseInt(sc.nextLine());
-
-            if (menuIntroducao != 1 && menuIntroducao != 2) {
-                Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
-                Imprimir.i(PRIMEIRO_MENU);
-                checkconta = false;
-            }
-
-        } catch (NumberFormatException e) {
-            Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
-            Imprimir.i(PRIMEIRO_MENU);
-            checkconta = false;
-
-        } while (!checkconta);
-
-        if (menuIntroducao == 1) {
-
+            // Try catch referente a primeira opção do menu;
             do try {
 
                 checkconta = true;
-                Imprimir.i(INFORMAR_TP_CLIENTE);
-                tpCliente = Integer.parseInt(sc.nextLine());
+                menuIntroducao = Integer.parseInt(sc.nextLine());
 
-                if (tpCliente != 1 && tpCliente != 2) {
-                    checkconta = false;
+                if (menuIntroducao != 1 && menuIntroducao != 2) {
                     Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(PRIMEIRO_MENU);
+                    checkconta = false;
                 }
 
             } catch (NumberFormatException e) {
                 Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                Imprimir.i(PRIMEIRO_MENU);
                 checkconta = false;
 
             } while (!checkconta);
 
-            if (tpCliente == 1) {
+            if (menuIntroducao == 1) {
 
-                Imprimir.i(MENU_NOME);
+                do try {
 
+                    checkconta = true;
+                    Imprimir.i(INFORMAR_TP_CLIENTE);
+                    tpCliente = Integer.parseInt(sc.nextLine());
+
+                    if (tpCliente != 1 && tpCliente != 2) {
+                        checkconta = false;
+                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    }
+
+                } catch (NumberFormatException e) {
+                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    checkconta = false;
+
+                } while (!checkconta);
+
+                if (tpCliente == 1) {
+
+                    Imprimir.i(MENU_NOME);
+
+                } else {
+                    Imprimir.i(MENU_RAZAO_SOCIAL);
+
+                }
+                nomeCliente = sc.nextLine();
+
+                if (tpCliente == 1) {
+                    Imprimir.i(INFORMAR_DOCUMENTO, CPF);
+
+                } else if (tpCliente == 2) {
+                    Imprimir.i(INFORMAR_DOCUMENTO, CNPJ);
+                }
+
+                do try {
+
+                    checkconta = true;
+                    docCliente = sc.nextLine();
+
+                } catch (NumberFormatException e) {
+                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    checkconta = false;
+
+                } while (!checkconta);
+
+                NumConta = ConfigConta.gerarNConta();
+
+                Usuario U = new Usuario(nomeCliente, docCliente, tpCliente, NumConta);
+                UList.add(U);
+
+                Imprimir.i(CRIACAO_DE_CONTA, String.valueOf(NumConta));
+
+                ContaCorrente cc = new ContaCorrente(NumConta, 0);
+                ListSaldoCC.add(cc);
+
+                ContaPoupanca cp = new ContaPoupanca(NumConta, 0);
+                ListSaldoCP.add(cp);
+
+                ContaInvestimento ci = new ContaInvestimento(NumConta, 0);
+                ListSaldoCI.add(ci);
+
+                //Caso escolha opção de realizar ‘login’:
             } else {
-                Imprimir.i(MENU_RAZAO_SOCIAL);
 
-            }
-            nomeCliente = sc.nextLine();
-
-            if (tpCliente == 1) {
-                Imprimir.i(INFORMAR_DOCUMENTO, "CPF");
-
-            } else if (tpCliente == 2) {
-                Imprimir.i(INFORMAR_DOCUMENTO, "CNPJ");
-            }
-
-            do try {
-
-                checkconta = true;
-                docCliente = sc.nextLine();
-
-            } catch (NumberFormatException e) {
-                Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
-                checkconta = false;
-
-            } while (!checkconta);
-
-            NumConta = ConfigConta.gerarNConta();
-
-            Usuario U = new Usuario(nomeCliente, docCliente, tpCliente, NumConta);
-            List<Usuario> UList = new ArrayList<>();
-            UList.add(U);
-
-            Imprimir.i(CRIACAO_DE_CONTA, String.valueOf(NumConta));
-
-        } else {
-
-            Imprimir.i(INTRODUCAO_NOME, nomeCliente);
-
-            // Do while e try catch referente ao numero da conta
-            do try {
+                // Do while e try catch referente ao numero da conta
+                do try {
 
                     checkconta = true;
 
                     Imprimir.i(MENU_CONTA);
                     int NumContalogin = Integer.parseInt(sc.nextLine());
 
+                    for (int i = 0; i <= UList.size(); i++) {
+
+                        Usuario contai = UList.get(i);
+
+                        if (contai.getNumConta() == NumContalogin) {
+
+                            nomeCliente = contai.getNomeCliente();
+                            docCliente = contai.getDocumentoCliente();
+                            tpCliente = contai.getTipoCliente();
+
+                            break;
+
+                        }
+
+                    }
+
+                    for (int i = 0; i <= ListSaldoCC.size(); i++) {
+
+                        ContaCorrente ccl = ListSaldoCC.get(i);
+
+                        if (ccl.getNumConta() == NumConta) {
+
+                            cc.setSaldoCC(ccl.getSaldoCC());
+
+                        }
+
+                    }
+
+                    for (int i = 0; i <= ListSaldoCP.size(); i++) {
+
+                        ContaPoupanca ccl = ListSaldoCP.get(i);
+
+                        if (ccl.getNumConta() == NumConta) {
+
+                            cp.setSaldoCP(ccl.getSaldoCP());
+
+                        }
+
+                    }
+
+                    for (int i = 0; i <= ListSaldoCI.size(); i++) {
+
+                        ContaInvestimento ccl = ListSaldoCI.get(i);
+
+                        if (ccl.getNumConta() == NumConta) {
+
+                            ci.setSaldoCI(ccl.getSaldoCI());
+
+                        }
+
+                    }
+
+
                 } catch (NumberFormatException e) {
                     Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
                     checkconta = false;
 
-            } while (!checkconta);
+                } while (!checkconta);
 
-        }
+            }
 
+        } catch (IndexOutOfBoundsException e) {
+            Imprimir.i(CONTA_NAO_ENCONTRADA);
+            checkconta = false;
+        } while (!checkconta);
+
+        Imprimir.i(INTRODUCAO_NOME, nomeCliente);
 
         do {
 
@@ -174,13 +261,27 @@ public class Aplicacao {
 
                 checkconta = true;
 
-                Imprimir.i(MENU_INICIAL);
+                if (tpCliente == 1) {
 
-                menuInicial = Integer.parseInt(sc.nextLine());
+                    Imprimir.i(MENU_INICIAL_PF);
 
-                if (menuInicial != 1 && menuInicial != 2 && menuInicial != 3) {
-                    checkconta = false;
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    menuInicial = Integer.parseInt(sc.nextLine());
+
+                    if (menuInicial != 1 && menuInicial != 2 && menuInicial != 3) {
+                        checkconta = false;
+                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    }
+
+                } else {
+
+                    Imprimir.i(MENU_INICIAL_PJ);
+
+                    menuInicial = Integer.parseInt(sc.nextLine());
+
+                    if (menuInicial != 1 && menuInicial != 2) {
+                        checkconta = false;
+                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    }
                 }
 
             } catch (NumberFormatException e) {
@@ -209,6 +310,7 @@ public class Aplicacao {
                 } while (!checkconta);
 
                 if (menuOperacao == 1) {
+
                     Imprimir.i(VALOR_DE_DEPOSITO);
                     cc.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
 
@@ -220,14 +322,33 @@ public class Aplicacao {
                     Imprimir.i(VALOR_TRANSFERENCIA);
                     double valorTransferencia = Double.parseDouble(sc.nextLine());
 
-                    Imprimir.i(DESTINO_TRANSFERENCIA, "Conta Poupança", "Conta Investimento");
-                    int destinoTransferencia = Integer.parseInt(sc.nextLine());
+                    int destinoTransferencia;
+
+                    if(tpCliente==1) {
+
+                        Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_POUPANCA, CONTA_INVESTIMENTO);
+                        destinoTransferencia = Integer.parseInt(sc.nextLine());
+
+                    } else {destinoTransferencia = 2;}
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
+                }
+
+                for (int i = 0; i <= ListSaldoCC.size(); i++) {
+
+                    ContaCorrente saldoCCi = ListSaldoCC.get(i);
+
+                    if (saldoCCi.getNumConta() == NumConta) {
+
+                        saldoCCi.setSaldoCC(cc.getSaldoCC());
+
+                        break;
+
+                    }
 
                 }
 
-            } else if (menuInicial == 2) {
+            } else if (menuInicial == 3 && tpCliente == 1) {
 
                 do try {
 
@@ -260,14 +381,27 @@ public class Aplicacao {
                     Imprimir.i(VALOR_TRANSFERENCIA);
                     double valorTransferencia = Double.parseDouble(sc.nextLine());
 
-                    Imprimir.i(DESTINO_TRANSFERENCIA, "Conta Corrente", "Conta Investimento");
+                    Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_CORRENTE, CONTA_INVESTIMENTO);
                     int destinoTransferencia = Integer.parseInt(sc.nextLine());
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
 
                 }
+                for (int i = 0; i <= ListSaldoCP.size(); i++) {
 
-            } else if (menuInicial == 3) {
+                    ContaPoupanca saldoCPi = ListSaldoCP.get(i);
+
+                    if (saldoCPi.getNumConta() == NumConta) {
+
+                        saldoCPi.setSaldoCP(cc.getSaldoCC());
+
+                        break;
+
+                    }
+
+                }
+
+            } else if (menuInicial == 2) {
 
                 do try {
 
@@ -298,19 +432,46 @@ public class Aplicacao {
                     Imprimir.i(VALOR_TRANSFERENCIA);
                     double valorTransferencia = Double.parseDouble(sc.nextLine());
 
-                    Imprimir.i(DESTINO_TRANSFERENCIA, "Conta Corrente", "Conta Poupança");
-                    int destinoTransferencia = Integer.parseInt(sc.nextLine());
+                    int destinoTransferencia;
+
+                    if(tpCliente==1) {
+
+                        Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_CORRENTE, CONTA_POUPANCA);
+                        destinoTransferencia = Integer.parseInt(sc.nextLine());
+
+                    } else {destinoTransferencia=1;}
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
-                }
 
+                }
+                for (int i = 0; i <= ListSaldoCI.size(); i++) {
+
+                    ContaInvestimento saldoCIi = ListSaldoCI.get(i);
+
+                    if (saldoCIi.getNumConta() == NumConta) {
+
+                        saldoCIi.setSaldoCI(cc.getSaldoCC());
+
+                        break;
+
+                    }
+                }
             }
+
             amostragemSaldos();
 
             Imprimir.i(REALIZAR_OUTRA_OPERACAO);
             loop = Perguntar.q(sc.nextLine(), REALIZAR_OUTRA_OPERACAO);
 
         } while (loop);
+
+        Imprimir.i(DESLOGAR);
+        loop = Perguntar.q(sc.nextLine(), DESLOGAR);
+
+        if (loop) {
+            main(args);
+
+        } else System.exit(0);
 
     }
 
@@ -319,27 +480,23 @@ public class Aplicacao {
         Imprimir.i(CHECAGEM_SALDO);
         checkSaldo = Perguntar.q(sc.nextLine(), CHECAGEM_SALDO);
 
-
         if (checkSaldo) {
 
-            Imprimir.i("""
-                    Nome: %s
-                    Nº da Conta: %s
-                    """, nomeCliente, String.valueOf(NumConta));
+            Imprimir.i(DADOS_CONTA, nomeCliente, String.valueOf(NumConta));
 
             if (tpCliente == 1) {
 
-                Imprimir.i("Conta Corrente:");
+                Imprimir.i(CONTA_CORRENTE);
                 cc.exibirSaldo();
-                Imprimir.i("Conta Poupança:");
+                Imprimir.i(CONTA_POUPANCA);
                 cp.exibirSaldo();
-                Imprimir.i("Conta Investimento:");
+                Imprimir.i(CONTA_INVESTIMENTO);
                 ci.exibirSaldo();
 
             } else {
-                Imprimir.i("Conta Corrente:");
+                Imprimir.i(CONTA_CORRENTE);
                 cc.exibirSaldo();
-                Imprimir.i("Conta Investimento:");
+                Imprimir.i(CONTA_INVESTIMENTO);
                 ci.exibirSaldo();
 
             }

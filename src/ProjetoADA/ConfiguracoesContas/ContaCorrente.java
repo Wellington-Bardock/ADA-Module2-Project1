@@ -20,6 +20,22 @@ public class ContaCorrente extends Conta implements MetodosConta {
         this.saldoCC = saldoCC;
     }
 
+    public ContaCorrente() {
+    }
+
+    public ContaCorrente(int NumConta, double saldoCC) {
+        this.saldoCC = saldoCC;
+        setNumConta(NumConta);
+    }
+
+    @Override
+    public String toString() {
+        return "ContaCorrente{" +
+                "saldoCC=" + saldoCC +
+                ", nConta=" + getNumConta() +
+                '}';
+    }
+
     @Override
     public void depositar(int tpCliente, double valor) {
 
@@ -71,7 +87,7 @@ public class ContaCorrente extends Conta implements MetodosConta {
         if (destinoTransferencia == 1 && saldoCC >= valorTransf) {
 
             saldoCC = saldoCC - valorTransf;
-            cp.setSaldoPP(cp.getSaldoPP() + valor);
+            cp.setSaldoCP(cp.getSaldoCP() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 

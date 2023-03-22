@@ -20,6 +20,14 @@ public class ContaInvestimento extends Conta implements MetodosConta{
         this.saldoCI = saldoCI;
     }
 
+    public ContaInvestimento() {
+    }
+
+    public ContaInvestimento(int NumConta, double saldoCI) {
+        this.saldoCI = saldoCI;
+        setNumConta(NumConta);
+    }
+
     @Override
     public void depositar(int tpCliente, double valor) {
         if(tpCliente==2) {
@@ -69,7 +77,7 @@ public class ContaInvestimento extends Conta implements MetodosConta{
         if (destinoTransferencia == 1 && saldoCI >= valorTransf) {
 
             saldoCI = saldoCI - valorTransf;
-            cp.setSaldoPP(cp.getSaldoPP() + valor);
+            cp.setSaldoCP(cp.getSaldoCP() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 

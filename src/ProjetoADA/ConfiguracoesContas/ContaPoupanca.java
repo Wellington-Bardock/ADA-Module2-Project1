@@ -8,32 +8,40 @@ import static ProjetoADA.Aplicacao.*;
 
 public class ContaPoupanca extends Conta implements MetodosConta{
 
-    protected double saldoPP;
+    protected double saldoCP;
 
-    public double getSaldoPP() {
-        return saldoPP;
+    public double getSaldoCP() {
+        return saldoCP;
     }
 
-    public void setSaldoPP(double saldoPP) {
-        this.saldoPP = saldoPP;
+    public void setSaldoCP(double saldoCP) {
+        this.saldoCP = saldoCP;
     }
 
     @Override
     public void depositar(int tpCliente, double valor) {
 
-        saldoPP= saldoPP + valor;
+        saldoCP = saldoCP + valor;
 
         Imprimir.i(TRANSACAO_EFETUADA);
+    }
+
+    public ContaPoupanca() {
+    }
+
+    public ContaPoupanca(int NumConta, double saldoCP) {
+        this.saldoCP = saldoCP;
+        setNumConta(NumConta);
     }
 
     @Override
     public void sacar(int tpCliente, double valor) {
 
-            if (saldoPP < valor) {
+            if (saldoCP < valor) {
 
                 Imprimir.i(VALOR_INSUFICIENTE);
             } else {
-                saldoPP = saldoPP - valor;
+                saldoCP = saldoCP - valor;
                 Imprimir.i(TRANSACAO_EFETUADA);
             }
         }
@@ -41,16 +49,16 @@ public class ContaPoupanca extends Conta implements MetodosConta{
     @Override
     public void transferencia(int destinoTransferencia, int tpCliente, double valor) {
 
-        if (destinoTransferencia == 1 && saldoPP >= valor) {
+        if (destinoTransferencia == 1 && saldoCP >= valor) {
 
-            saldoPP = saldoPP - valor;
+            saldoCP = saldoCP - valor;
             ci.setSaldoCI(ci.getSaldoCI() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
-        } else if (destinoTransferencia == 2 && saldoPP >= valor) {
+        } else if (destinoTransferencia == 2 && saldoCP >= valor) {
 
-            saldoPP = saldoPP- valor;
+            saldoCP = saldoCP - valor;
             cc.setSaldoCC(cc.getSaldoCC()+valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
@@ -62,6 +70,6 @@ public class ContaPoupanca extends Conta implements MetodosConta{
 
     @Override
     public void exibirSaldo() {
-        Imprimir.i(String.format("Saldo: %.2f\n", getSaldoPP()));
+        Imprimir.i(String.format("Saldo: %.2f\n", getSaldoCP()));
     }
 }
