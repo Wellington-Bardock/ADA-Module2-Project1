@@ -8,10 +8,12 @@ public enum TaxasEJuros {
     private final double taxasEJuros;
 
     TaxasEJuros(double taxasEJuros) {
+
         this.taxasEJuros = taxasEJuros;
     }
 
     public double getTaxasEJuros() {
+
         return taxasEJuros;
     }
 }

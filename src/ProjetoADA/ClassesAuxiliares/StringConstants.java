@@ -14,7 +14,6 @@ public class StringConstants {
             1 - Depósito
             2 - Saque
             3 - Transferencia""";
-
     public static final String MENU_NOME = "Por favor, informar o seu nome:";
     public static final String MENU_CONTA = "Por favor informar a sua conta:";
     public static final String INTRODUCAO_NOME = "Olá %s!\n";
@@ -27,12 +26,10 @@ public class StringConstants {
             Bem Vindo ao APP Banco! Por favor, informar a opção desejada!
              1 - Criar Conta
              2 - Realizar Login""";
-
     public static final String PRIMEIRO_MENU = """
             Por favor, informar a opção desejada!
              1 - Criar Conta
              2 - Realizar Login""";
-
     public static final String INFORMAR_DOCUMENTO = "Por favor, informar o %s:\n";
     public static final String INFORMAR_TP_CLIENTE = """
             Por favor, informar qual o tipo de conta:
@@ -67,5 +64,4 @@ public class StringConstants {
     //CONSTANT CONTAS
     public static final String VALOR_INSUFICIENTE = "Valor Insuficiente, Transação Não Efetuada!\n";
     public static final String TRANSACAO_EFETUADA = "Transação Efetuada!\n";
-
 }

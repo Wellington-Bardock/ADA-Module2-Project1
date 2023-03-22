@@ -10,19 +10,15 @@ public class Perguntar {
     public static boolean q(String msg, String complementoMsg) {
 
         if (msg.equalsIgnoreCase("S")) {
-
             return true;
 
         } else if (msg.equalsIgnoreCase("N")) {
-
             return false;
 
         } else {
             Imprimir.i(OPCAO_INVALIDA + "\n" + complementoMsg);
             msg = sc.nextLine();
-
             return q(msg, complementoMsg);
-
         }
     }
 }

@@ -7,5 +7,4 @@ public interface MetodosConta {
     void sacar(int tpCliente, double valor);
 
     void transferencia(int destinoTransferencia, int tpCliente, double valor);
-
 }

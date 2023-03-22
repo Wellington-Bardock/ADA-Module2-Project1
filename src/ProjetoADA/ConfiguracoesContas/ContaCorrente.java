@@ -2,11 +2,9 @@ package ProjetoADA.ConfiguracoesContas;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 import ProjetoADA.ClassesAuxiliares.TaxasEJuros;
-
 import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 
 public class ContaCorrente extends Conta implements MetodosConta {
-
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;
 
@@ -23,16 +21,13 @@ public class ContaCorrente extends Conta implements MetodosConta {
     public void depositar(int tpCliente, double valor, int tpOperacao) {
 
         if (tpCliente == 2) {
-
             setSaldo(getSaldo() + valor * (1 + j.getTaxasEJuros()));
 
         } else {
-
             setSaldo(getSaldo() + valor);
         }
 
-        if(tpOperacao==1) {
-
+        if (tpOperacao == 1) {
             Imprimir.i(TRANSACAO_EFETUADA);
 
         }

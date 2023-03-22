@@ -2,7 +2,6 @@ package ProjetoADA.ConfiguracoesContas;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 import ProjetoADA.ClassesAuxiliares.TaxasEJuros;
-
 import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 
 public class ContaInvestimento extends Conta implements MetodosConta {
@@ -29,7 +28,7 @@ public class ContaInvestimento extends Conta implements MetodosConta {
             setSaldo(getSaldo() + valor);
         }
 
-        if(tpOperacao==1) {
+        if (tpOperacao == 1) {
 
             Imprimir.i(TRANSACAO_EFETUADA);
 

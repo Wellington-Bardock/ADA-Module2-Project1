@@ -2,13 +2,14 @@ package ProjetoADA;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
 import ProjetoADA.ClassesAuxiliares.Perguntar;
+
 import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
+
 import ProjetoADA.ConfiguracoesContas.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 
 
 public class Aplicacao {

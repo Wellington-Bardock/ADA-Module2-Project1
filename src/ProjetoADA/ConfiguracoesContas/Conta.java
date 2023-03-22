@@ -6,6 +6,7 @@ public abstract class Conta {
     private int numConta;
     private int tipoCliente;
     private String documentoCliente;
+    private double saldo;
 
     public double getSaldo() {
         return saldo;
@@ -14,8 +15,6 @@ public abstract class Conta {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
-
-    private double saldo;
 
     public String getDocumentoCliente() {
         return documentoCliente;
@@ -48,5 +47,4 @@ public abstract class Conta {
     public void setNumConta(int numConta) {
         this.numConta = numConta;
     }
-
 }

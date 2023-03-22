@@ -1,7 +1,6 @@
 package ProjetoADA.ConfiguracoesContas;
 
 import ProjetoADA.ClassesAuxiliares.Imprimir;
-
 import static ProjetoADA.ClassesAuxiliares.StringConstants.*;
 
 public class ContaPoupanca extends Conta implements MetodosConta {
