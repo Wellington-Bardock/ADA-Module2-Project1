@@ -70,9 +70,6 @@ public class Aplicacao {
             1 - Conta Corrente
             2 - Conta Investimento""";
     public static Scanner sc = new Scanner(System.in);
-    public static ContaCorrente cc = new ContaCorrente();
-    public static ContaPoupanca cp = new ContaPoupanca();
-    public static ContaInvestimento ci = new ContaInvestimento();
     static boolean checkconta;
     static boolean loop;
     static boolean checkSaldo;
@@ -87,8 +84,15 @@ public class Aplicacao {
     private static final List<ContaCorrente> ListSaldoCC = new ArrayList<>();
     private static final List<ContaPoupanca> ListSaldoCP = new ArrayList<>();
     private static final List<ContaInvestimento> ListSaldoCI = new ArrayList<>();
+    private static double saldoCC;
+    private static double saldoCP;
+    private static double saldoCI;
 
     public static void main(String[] args) {
+
+        ContaCorrente cc = new ContaCorrente();
+        ContaInvestimento ci = new ContaInvestimento();
+        ContaPoupanca cp = new ContaPoupanca();
 
         Imprimir.i(INTRODUCAO_APP);
 
@@ -167,14 +171,14 @@ public class Aplicacao {
 
                 Imprimir.i(CRIACAO_DE_CONTA, String.valueOf(NumConta));
 
-                ContaCorrente cc = new ContaCorrente(NumConta, 0.0);
-                ListSaldoCC.add(cc);
+                ContaCorrente cc2 = new ContaCorrente(NumConta, saldoCC);
+                ListSaldoCC.add(cc2);
 
-                ContaPoupanca cp = new ContaPoupanca(NumConta, 0.0);
-                ListSaldoCP.add(cp);
+                ContaPoupanca cp2 = new ContaPoupanca(NumConta, saldoCP);
+                ListSaldoCP.add(cp2);
 
-                ContaInvestimento ci = new ContaInvestimento(NumConta, 0.0);
-                ListSaldoCI.add(ci);
+                ContaInvestimento ci2 = new ContaInvestimento(NumConta, saldoCI);
+                ListSaldoCI.add(ci2);
 
                 //Caso escolha opção de realizar ‘login’:
             } else {
@@ -209,7 +213,7 @@ public class Aplicacao {
 
                         if (ccl.getNumConta() == NumContalogin) {
 
-                            cc.setSaldoCC(ccl.getSaldoCC());
+                            saldoCC = ccl.getSaldo();
 
                             break;
                         }
@@ -222,7 +226,7 @@ public class Aplicacao {
 
                         if (cpl.getNumConta() == NumContalogin) {
 
-                            cp.setSaldoCP(cpl.getSaldoCP());
+                            saldoCP = cpl.getSaldo();
 
                             break;
 
@@ -236,7 +240,7 @@ public class Aplicacao {
 
                         if (cil.getNumConta() == NumContalogin) {
 
-                            ci.setSaldoCI(cil.getSaldoCI());
+                            saldoCI = cil.getSaldo();
 
                             break;
 
@@ -330,12 +334,14 @@ public class Aplicacao {
 
                     int destinoTransferencia;
 
-                    if(tpCliente==1) {
+                    if (tpCliente == 1) {
 
                         Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_POUPANCA, CONTA_INVESTIMENTO);
                         destinoTransferencia = Integer.parseInt(sc.nextLine());
 
-                    } else {destinoTransferencia = 2;}
+                    } else {
+                        destinoTransferencia = 2;
+                    }
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
                 }
@@ -346,7 +352,9 @@ public class Aplicacao {
 
                     if (saldoCCi.getNumConta() == NumConta) {
 
-                        saldoCCi.setSaldoCC(cc.getSaldoCC());
+                        saldoCCi.setSaldo(cc.getSaldo());
+
+                        saldoCC=saldoCCi.getSaldo();
 
                         break;
 
@@ -376,6 +384,7 @@ public class Aplicacao {
                 if (menuOperacao == 1) {
 
                     Imprimir.i(VALOR_DE_DEPOSITO);
+
                     cp.depositar(tpCliente, Double.parseDouble(sc.nextLine()));
 
                 } else if (menuOperacao == 2) {
@@ -399,7 +408,9 @@ public class Aplicacao {
 
                     if (saldoCPi.getNumConta() == NumConta) {
 
-                        saldoCPi.setSaldoCP(cc.getSaldoCC());
+                        saldoCPi.setSaldo(cc.getSaldo());
+
+                        saldoCP=saldoCPi.getSaldo();
 
                         break;
 
@@ -441,12 +452,14 @@ public class Aplicacao {
 
                     int destinoTransferencia;
 
-                    if(tpCliente==1) {
+                    if (tpCliente == 1) {
 
                         Imprimir.i(DESTINO_TRANSFERENCIA, CONTA_CORRENTE, CONTA_POUPANCA);
                         destinoTransferencia = Integer.parseInt(sc.nextLine());
 
-                    } else {destinoTransferencia=1;}
+                    } else {
+                        destinoTransferencia = 1;
+                    }
 
                     cc.transferencia(destinoTransferencia, tpCliente, valorTransferencia);
 
@@ -457,7 +470,9 @@ public class Aplicacao {
 
                     if (saldoCIi.getNumConta() == NumConta) {
 
-                        saldoCIi.setSaldoCI(cc.getSaldoCC());
+                        saldoCIi.setSaldoCI(cc.getSaldo());
+
+                        saldoCI=saldoCIi.getSaldo();
 
                         break;
 
@@ -465,7 +480,6 @@ public class Aplicacao {
                 }
             }
 
-            Imprimir.i(ListSaldoCC.toString());
             amostragemSaldos();
 
             Imprimir.i(REALIZAR_OUTRA_OPERACAO);
@@ -495,17 +509,17 @@ public class Aplicacao {
             if (tpCliente == 1) {
 
                 Imprimir.i(CONTA_CORRENTE);
-                cc.exibirSaldo();
+                Imprimir.i(String.format("Saldo: %.2f\n", saldoCC));
                 Imprimir.i(CONTA_POUPANCA);
-                cp.exibirSaldo();
+                Imprimir.i(String.format("Saldo: %.2f\n", saldoCP));
                 Imprimir.i(CONTA_INVESTIMENTO);
-                ci.exibirSaldo();
+                Imprimir.i(String.format("Saldo: %.2f\n", saldoCI));
 
             } else {
                 Imprimir.i(CONTA_CORRENTE);
-                cc.exibirSaldo();
+                //cc.exibirSaldo();
                 Imprimir.i(CONTA_INVESTIMENTO);
-                ci.exibirSaldo();
+                //ci.exibirSaldo();
 
             }
         }

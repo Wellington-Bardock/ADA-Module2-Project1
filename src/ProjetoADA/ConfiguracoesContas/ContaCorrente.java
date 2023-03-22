@@ -8,23 +8,14 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
     public static final String VALOR_INSUFICIENTE = "Valor Insuficiente, Transação Não Efetuada!\n";
     public static final String TRANSACAO_EFETUADA = "Transação Efetuada!\n";
-
-    private double saldoCC;
     TaxasEJuros t = TaxasEJuros.TAXA;
     TaxasEJuros j = TaxasEJuros.JUROS;
-
-    public double getSaldoCC() {
-        return saldoCC;
-    }
-    public void setSaldoCC(double saldoCC) {
-        this.saldoCC = saldoCC;
-    }
 
     public ContaCorrente() {
     }
 
     public ContaCorrente(int NumConta, double saldoCC) {
-        this.saldoCC = saldoCC;
+        setSaldo(saldoCC);
         setNumConta(NumConta);
     }
 
@@ -33,21 +24,14 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
         if(tpCliente==2) {
 
-            this.saldoCC+=(valor*(1+j.getTaxasEJuros()));
+            setSaldo(getSaldo()+ valor*(1+j.getTaxasEJuros()));
 
         } else {
 
-            this.saldoCC+= valor;}
+            setSaldo(getSaldo() + valor);}
 
         Imprimir.i(TRANSACAO_EFETUADA);
 
-    }
-
-    @Override
-    public String toString() {
-        return "ContaCorrente{" +
-                "saldoCC=" + saldoCC +
-                '}';
     }
 
     @Override
@@ -55,20 +39,20 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
         if (tpCliente==2) {
 
-            if(saldoCC<valor*(1+t.getTaxasEJuros())) {
+            if(getSaldo()<valor*(1+t.getTaxasEJuros())) {
 
                 Imprimir.i(VALOR_INSUFICIENTE);}
 
-            else {saldoCC= saldoCC-(valor*(1+t.getTaxasEJuros()));
+            else {setSaldo(getSaldo()-(valor*(1+t.getTaxasEJuros())));
                 Imprimir.i(TRANSACAO_EFETUADA);}
 
         } else {
 
-            if (saldoCC < valor) {
+            if (getSaldo() < valor) {
 
                 Imprimir.i(VALOR_INSUFICIENTE);
             } else {
-                saldoCC = saldoCC - valor;
+                setSaldo(getSaldo() - valor);
                 Imprimir.i(TRANSACAO_EFETUADA);
             }
 
@@ -85,17 +69,17 @@ public class ContaCorrente extends Conta implements MetodosConta {
         } else {
             valorTransf = valor;}
 
-        if (destinoTransferencia == 1 && saldoCC >= valorTransf) {
+        if (destinoTransferencia == 1 && getSaldo() >= valorTransf) {
 
-            saldoCC = saldoCC - valorTransf;
-            cp.setSaldoCP(cp.getSaldoCP() + valor);
+            setSaldo(getSaldo() - valorTransf);
+            setSaldo(getSaldo() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
-        } else if (destinoTransferencia == 2 && saldoCC >= valorTransf) {
+        } else if (destinoTransferencia == 2 && getSaldo() >= valorTransf) {
 
-            saldoCC = saldoCC- valorTransf;
-                ci.setSaldoCI(ci.getSaldoCI()+valor);
+            setSaldo(getSaldo()- valorTransf);
+            setSaldo(getSaldo()+valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
@@ -106,7 +90,7 @@ public class ContaCorrente extends Conta implements MetodosConta {
 
     @Override
     public void exibirSaldo() {
-        Imprimir.i(String.format("Saldo: %.2f\n", getSaldoCC()));
+        Imprimir.i(String.format("Saldo: %.2f\n", getSaldo()));
     }
 
 }

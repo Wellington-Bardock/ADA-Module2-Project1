@@ -7,6 +7,16 @@ public abstract class Conta {
     private int tipoCliente;
     private String documentoCliente;
 
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    private double saldo;
+
     public String getDocumentoCliente() {
         return documentoCliente;
     }

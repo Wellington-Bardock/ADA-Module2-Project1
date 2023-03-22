@@ -77,14 +77,14 @@ public class ContaInvestimento extends Conta implements MetodosConta{
         if (destinoTransferencia == 1 && saldoCI >= valorTransf) {
 
             saldoCI = saldoCI - valorTransf;
-            cp.setSaldoCP(cp.getSaldoCP() + valor);
+            setSaldo(getSaldo() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
         } else if (destinoTransferencia == 2 && saldoCI >= valorTransf) {
 
             saldoCI = saldoCI- valorTransf;
-            cc.setSaldoCC(cc.getSaldoCC()+valor);
+            setSaldo(getSaldo() + valor);
 
             Imprimir.i(TRANSACAO_EFETUADA);
 
