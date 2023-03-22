@@ -28,7 +28,7 @@ public class Aplicacao {
     public static final String VALOR_DE_DEPOSITO = "Qual o valor de depósito?";
     public static final String VALOR_DE_SAQUE = "Qual o valor de saque?";
     public static final String REALIZAR_OUTRA_OPERACAO = "Gostaria de realizar outra operação? (S/N)";
-    public static final String VALOR_INVALIDO_TENTE_NOVAMENTE = "Valor Invalido!";
+    public static final String VALOR_INVALIDO = "Valor Invalido!";
     public static final String CHECAGEM_SALDO = "Gostaria de ver o seu saldo? (S/N)";
     public static final String INTRODUCAO_APP = """
             Bem Vindo ao APP Banco! Por favor, informar a opção desejada!
@@ -101,13 +101,13 @@ public class Aplicacao {
                 menuIntroducao = Integer.parseInt(sc.nextLine());
 
                 if (menuIntroducao != 1 && menuIntroducao != 2) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     Imprimir.i(PRIMEIRO_MENU);
                     checkconta = false;
                 }
 
             } catch (NumberFormatException e) {
-                Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                Imprimir.i(VALOR_INVALIDO);
                 Imprimir.i(PRIMEIRO_MENU);
                 checkconta = false;
 
@@ -123,11 +123,11 @@ public class Aplicacao {
 
                     if (tpCliente != 1 && tpCliente != 2) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
 
                 } while (!checkconta);
@@ -155,7 +155,7 @@ public class Aplicacao {
                     docCliente = sc.nextLine();
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
 
                 } while (!checkconta);
@@ -246,7 +246,7 @@ public class Aplicacao {
 
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
 
                 } while (!checkconta);
@@ -274,7 +274,7 @@ public class Aplicacao {
 
                     if (menuInicial != 1 && menuInicial != 2 && menuInicial != 3) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
 
                 } else {
@@ -285,12 +285,12 @@ public class Aplicacao {
 
                     if (menuInicial != 1 && menuInicial != 2) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
                 }
 
             } catch (NumberFormatException e) {
-                Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                Imprimir.i(VALOR_INVALIDO);
                 checkconta = false;
 
             } while (!checkconta);
@@ -306,11 +306,11 @@ public class Aplicacao {
 
                     if (menuOperacao != 1 && menuOperacao != 2 && menuOperacao != 3) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
                 } while (!checkconta);
 
@@ -365,11 +365,11 @@ public class Aplicacao {
 
                     if (menuOperacao != 1 && menuOperacao != 2 && menuOperacao != 3) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
                 } while (!checkconta);
 
@@ -419,11 +419,11 @@ public class Aplicacao {
 
                     if (menuOperacao != 1 && menuOperacao != 2 && menuOperacao != 3) {
                         checkconta = false;
-                        Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                        Imprimir.i(VALOR_INVALIDO);
                     }
 
                 } catch (NumberFormatException e) {
-                    Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+                    Imprimir.i(VALOR_INVALIDO);
                     checkconta = false;
                 } while (!checkconta);
 

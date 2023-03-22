@@ -62,7 +62,7 @@ public class ContaPoupanca extends Conta implements MetodosConta{
             Imprimir.i(TRANSACAO_EFETUADA);
 
         } else {
-            Imprimir.i(VALOR_INVALIDO_TENTE_NOVAMENTE);
+            Imprimir.i(VALOR_INVALIDO);
         }
     }
 
