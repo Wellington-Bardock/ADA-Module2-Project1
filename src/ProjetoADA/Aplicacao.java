@@ -18,19 +18,19 @@ public class Aplicacao {
     static boolean loop;
     static boolean checkSaldo;
     private static String nomeCliente;
+    private static String docCliente;
     private static int NumConta;
     private static int tpCliente;
     private static int menuIntroducao;
-    private static String docCliente;
     private static int menuInicial;
     private static int menuOperacao;
+    private static double saldoCC;
+    private static double saldoCP;
+    private static double saldoCI;
     private static final List<Usuario> UList = new ArrayList<>();
     private static final List<ContaCorrente> ListSaldoCC = new ArrayList<>();
     private static final List<ContaPoupanca> ListSaldoCP = new ArrayList<>();
     private static final List<ContaInvestimento> ListSaldoCI = new ArrayList<>();
-    private static double saldoCC;
-    private static double saldoCP;
-    private static double saldoCI;
 
     public static void main(String[] args) {
 
